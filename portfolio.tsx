@@ -1,23 +1,41 @@
-"use client"
+"use client";
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Github, Linkedin, Mail, MapPin, Calendar, ExternalLink, Download, Code, Zap, Rocket, Instagram } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import { useEffect, useState } from "react"
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Github,
+  Linkedin,
+  Mail,
+  MapPin,
+  Calendar,
+  ExternalLink,
+  Download,
+  Code,
+  Zap,
+  Rocket,
+  Instagram,
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Portfolio() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
-  }, [])
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   const skills = [
     "JavaScript",
@@ -32,7 +50,7 @@ export default function Portfolio() {
     "Docker",
     "Git",
     "Figma",
-  ]
+  ];
 
   const experiences = [
     {
@@ -62,14 +80,14 @@ export default function Portfolio() {
       technologies: ["Kotlin", "Firebase", "TensorFlow", "Jetpack Compose"],
       icon: <Rocket className="h-6 w-6" />,
     },
-  ]
+  ];
 
   const projects = [
     {
       title: "Zebra Cross Violation Detection with YOLOv9",
       description:
         "Developed an AI-based traffic violation detection system using YOLOv9 to identify zebra cross violations in Indonesia.",
-      image: "/images/TA.jpg",
+      image: "/kamil-portfolio/images/TA.jpg",
       technologies: ["YOLO", "TensorFlow", "Ultralytics"],
       github: "https://github.com/Bodan07/Final-TA",
       demo: "#projects",
@@ -78,20 +96,21 @@ export default function Portfolio() {
       title: "RasaGram",
       description:
         "Developed an android application utilizes Machine Learning and Computer Vision to recognize traditional Indonesian dishes.",
-      image: "/images/RasaGram.jpg",
+      image: "/kamil-portfolio/images/RasaGram.jpg",
       technologies: ["Kotlin", "Figma", "Jetpack Compose", "Firebase"],
       github: "https://github.com/RasaGram",
       demo: "#projects",
     },
     {
       title: "COOKOS",
-      description: "COOKOS is a recipe app designed to help users find and cook delicious meals that suit their budget. It makes meal planning simple, affordable, and accessible for everyone.",
-      image: "/images/COOKOS.jpg",
+      description:
+        "COOKOS is a recipe app designed to help users find and cook delicious meals that suit their budget. It makes meal planning simple, affordable, and accessible for everyone.",
+      image: "/kamil-portfolio/images/COOKOS.jpg",
       technologies: ["Flutter", "Figma", "Firebase"],
       github: "https://github.com/Bodan07/COOKOS_NEW",
       demo: "#projects",
     },
-  ]
+  ];
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-x-hidden">
@@ -123,16 +142,18 @@ export default function Portfolio() {
               Najmi Kamil
             </h1>
             <div className="hidden md:flex space-x-6">
-              {["About", "Experience", "Skills", "Projects", "Contact"].map((item) => (
-                <Link
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="relative group hover:text-cyan-400 transition-all duration-300"
-                >
-                  {item}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-400 group-hover:w-full transition-all duration-300" />
-                </Link>
-              ))}
+              {["About", "Experience", "Skills", "Projects", "Contact"].map(
+                (item) => (
+                  <Link
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    className="relative group hover:text-cyan-400 transition-all duration-300"
+                  >
+                    {item}
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-400 group-hover:w-full transition-all duration-300" />
+                  </Link>
+                )
+              )}
             </div>
           </div>
         </div>
@@ -146,7 +167,7 @@ export default function Portfolio() {
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full blur-xl opacity-50 animate-pulse" />
               <div className="relative">
                 <Image
-                  src="/images/kamil-profile.png"
+                  src="/kamil-portfolio/images/kamil-profile.png"
                   alt="Kamil profile"
                   width={250}
                   height={250}
@@ -168,19 +189,29 @@ export default function Portfolio() {
                 </h1>
                 <div className="text-xl lg:text-2xl text-gray-300 mb-6 font-light">
                   <span className="text-cyan-400">Frontend Engineer</span> &{" "}
-                  <span className="text-purple-400">Computer Vision Enthusiast</span>
+                  <span className="text-purple-400">
+                    Computer Vision Enthusiast
+                  </span>
                 </div>
               </div>
               <p className="text-lg text-gray-300 mb-8 max-w-2xl leading-relaxed">
-                I design and develop digital solutions that blend creativity with technology.
-                With one year of experience in modern web development, I specialize in building sleek, high-performance 
-                interfaces—while exploring the future of tech through my passion for Computer Vision and AI. From concept to code, 
-                I turn ideas into
-                <span className="text-cyan-400 font-semibold"> intuitive, impactful digital realities</span>.
+                I design and develop digital solutions that blend creativity
+                with technology. With one year of experience in modern web
+                development, I specialize in building sleek, high-performance
+                interfaces—while exploring the future of tech through my passion
+                for Computer Vision and AI. From concept to code, I turn ideas
+                into
+                <span className="text-cyan-400 font-semibold">
+                  {" "}
+                  intuitive, impactful digital realities
+                </span>
+                .
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
-                <a href="/files/CV_Muhammad%20Najmi%20Kamil.pdf"
-                   download>
+                <a
+                  href="/kamil-portfolio/files/CV_Muhammad%20Najmi%20Kamil.pdf"
+                  download
+                >
                   <Button
                     size="lg"
                     className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white border-0 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300"
@@ -203,8 +234,14 @@ export default function Portfolio() {
               <div className="flex gap-6 justify-center lg:justify-start">
                 {[
                   { icon: Github, href: "https://github.com/Bodan07" },
-                  { icon: Linkedin, href: "https://www.linkedin.com/in/muhammadnajmikamil/" },
-                  { icon: Instagram, href: "https://www.instagram.com/najmikml_" },
+                  {
+                    icon: Linkedin,
+                    href: "https://www.linkedin.com/in/muhammadnajmikamil/",
+                  },
+                  {
+                    icon: Instagram,
+                    href: "https://www.instagram.com/najmikml_",
+                  },
                 ].map((social, index) => (
                   <Link
                     key={index}
@@ -229,24 +266,36 @@ export default function Portfolio() {
           <div className="grid lg:grid-cols-2 gap-12">
             <div className="space-y-6">
               <div className="relative p-8 rounded-2xl bg-gradient-to-br from-gray-900/50 to-gray-800/50 border border-gray-700/50 backdrop-blur-sm">
-                <h3 className="text-2xl font-semibold mb-4 text-cyan-400">My Journey</h3>
+                <h3 className="text-2xl font-semibold mb-4 text-cyan-400">
+                  My Journey
+                </h3>
                 <p className="text-gray-300 mb-4 leading-relaxed">
-                  I'm a passionate Frontend Engineer with a strong interest in AI and Computer Vision, blending creative design with intelligent systems. 
-                  My journey began at Telkom University, where I studied Informatics and discovered how code can shape meaningful digital experiences.
+                  I'm a passionate Frontend Engineer with a strong interest in
+                  AI and Computer Vision, blending creative design with
+                  intelligent systems. My journey began at Telkom University,
+                  where I studied Informatics and discovered how code can shape
+                  meaningful digital experiences.
                 </p>
                 <p className="text-gray-300 mb-4 leading-relaxed">
-                  Over the years, I’ve honed my skills across mobile and web development ecosystems, combining modern tools and frameworks to build digital 
-                  experiences that feel intuitive and futuristic. I’m deeply committed to writing clean, maintainable, scalable code, and ensuring that 
-                  every product delivers a user experience with a touch of magic.
+                  Over the years, I’ve honed my skills across mobile and web
+                  development ecosystems, combining modern tools and frameworks
+                  to build digital experiences that feel intuitive and
+                  futuristic. I’m deeply committed to writing clean,
+                  maintainable, scalable code, and ensuring that every product
+                  delivers a user experience with a touch of magic.
                 </p>
                 <p className="text-gray-300 leading-relaxed">
-                  I’m always curious, always learning, and driven by the challenge of turning complex ideas into seamless user experiences.
+                  I’m always curious, always learning, and driven by the
+                  challenge of turning complex ideas into seamless user
+                  experiences.
                 </p>
               </div>
             </div>
             <div className="space-y-6">
               <div className="relative p-8 rounded-2xl bg-gradient-to-br from-purple-900/30 to-cyan-900/30 border border-purple-500/20 backdrop-blur-sm">
-                <h3 className="text-2xl font-semibold mb-6 text-purple-400">Quick Stats</h3>
+                <h3 className="text-2xl font-semibold mb-6 text-purple-400">
+                  Quick Stats
+                </h3>
                 <div className="space-y-4">
                   {[
                     { icon: MapPin, text: "Bandung, Jawa Barat" },
@@ -262,9 +311,17 @@ export default function Portfolio() {
                   ))}
                 </div>
                 <div className="mt-8">
-                  <h4 className="font-semibold mb-4 text-cyan-400">Specializations</h4>
+                  <h4 className="font-semibold mb-4 text-cyan-400">
+                    Specializations
+                  </h4>
                   <div className="flex flex-wrap gap-2">
-                    {["Mobile Development", "Web Development", "UI/UX Design", "Computer Vision", "AI Integration"].map((interest, index) => (
+                    {[
+                      "Mobile Development",
+                      "Web Development",
+                      "UI/UX Design",
+                      "Computer Vision",
+                      "AI Integration",
+                    ].map((interest, index) => (
                       <Badge
                         key={index}
                         className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white border-0 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300"
@@ -303,14 +360,18 @@ export default function Portfolio() {
                         <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
                           {exp.title}
                         </h3>
-                        <p className="text-lg font-medium text-purple-400">{exp.company}</p>
+                        <p className="text-lg font-medium text-purple-400">
+                          {exp.company}
+                        </p>
                       </div>
                     </div>
                     <Badge className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white border-0 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300 w-fit">
                       {exp.period}
                     </Badge>
                   </div>
-                  <p className="text-gray-300 mb-6 leading-relaxed">{exp.description}</p>
+                  <p className="text-gray-300 mb-6 leading-relaxed">
+                    {exp.description}
+                  </p>
                   <div className="flex flex-wrap gap-2">
                     {exp.technologies.map((tech, techIndex) => (
                       <Badge
@@ -338,7 +399,14 @@ export default function Portfolio() {
             {[
               {
                 title: "Frontend",
-                skills: ["React", "Flutter", "Next.js", "TypeScript", "Tailwind CSS", "Vite"],
+                skills: [
+                  "React",
+                  "Flutter",
+                  "Next.js",
+                  "TypeScript",
+                  "Tailwind CSS",
+                  "Vite",
+                ],
                 gradient: "from-cyan-500/20 to-blue-500/20",
               },
               {
@@ -395,7 +463,7 @@ export default function Portfolio() {
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative aspect-video overflow-hidden">
                   <Image
-                    src={project.image || "/placeholder.svg"}
+                    src={project.image || "/kamil-portfolio/placeholder.svg"}
                     alt={project.title}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -406,12 +474,17 @@ export default function Portfolio() {
                   <CardTitle className="text-xl text-white group-hover:text-cyan-400 transition-colors duration-300">
                     {project.title}
                   </CardTitle>
-                  <CardDescription className="text-gray-300">{project.description}</CardDescription>
+                  <CardDescription className="text-gray-300">
+                    {project.description}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="relative z-10">
                   <div className="flex flex-wrap gap-2 mb-6">
                     {project.technologies.map((tech, techIndex) => (
-                      <Badge key={techIndex} className="bg-gray-800/50 text-gray-300 border-gray-600/50 text-xs">
+                      <Badge
+                        key={techIndex}
+                        className="bg-gray-800/50 text-gray-300 border-gray-600/50 text-xs"
+                      >
                         {tech}
                       </Badge>
                     ))}
@@ -453,8 +526,9 @@ export default function Portfolio() {
             Let's Build the Future Together
           </h2>
           <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Ready to transform your ideas into extraordinary digital experiences? I'm always excited to collaborate on
-            innovative projects that push the boundaries of technology.
+            Ready to transform your ideas into extraordinary digital
+            experiences? I'm always excited to collaborate on innovative
+            projects that push the boundaries of technology.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
             <Button
@@ -486,10 +560,11 @@ export default function Portfolio() {
       <footer className="relative py-12 px-4 border-t border-gray-800/50 z-10">
         <div className="container mx-auto max-w-4xl text-center">
           <p className="text-gray-400">
-            © {new Date().getFullYear()} John Doe. Crafted with passion and cutting-edge technology.
+            © {new Date().getFullYear()} John Doe. Crafted with passion and
+            cutting-edge technology.
           </p>
         </div>
       </footer>
     </div>
-  )
+  );
 }
