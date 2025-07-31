@@ -536,7 +536,7 @@ export default function Portfolio() {
               asChild
               className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white border-0 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300 text-lg px-8 py-6"
             >
-              <Link href="mailto:john.doe@example.com">
+              <Link href="mailto:najmi.kamil@gmail.com">
                 <Mail className="mr-2 h-5 w-5" />
                 Start a Conversation
               </Link>
@@ -547,7 +547,7 @@ export default function Portfolio() {
               asChild
               className="border-cyan-400/50 text-cyan-400 hover:bg-cyan-400/10 hover:border-cyan-400 transition-all duration-300 text-lg px-8 py-6 bg-transparent"
             >
-              <Link href="https://linkedin.com/in/johndoe">
+              <Link href="https://www.linkedin.com/in/muhammadnajmikamil/">
                 <Linkedin className="mr-2 h-5 w-5" />
                 Connect on LinkedIn
               </Link>
@@ -560,8 +560,7 @@ export default function Portfolio() {
       <footer className="relative py-12 px-4 border-t border-gray-800/50 z-10">
         <div className="container mx-auto max-w-4xl text-center">
           <p className="text-gray-400">
-            © {new Date().getFullYear()} John Doe. Crafted with passion and
-            cutting-edge technology.
+            © {new Date().getFullYear()} Najmi Kamil.
           </p>
         </div>
       </footer>
