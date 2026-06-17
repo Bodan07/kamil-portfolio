@@ -93,6 +93,24 @@ export default function Portfolio() {
       demo: "#projects",
     },
     {
+      title: "Facelify",
+      description:
+        "Modern attendance management with Quick Entry, selfie verification, HR dashboards, leave tracking, and AI-ready attendance innovation.",
+      image: "/kamil-portfolio/images/Facelify-dash.png",
+      technologies: ["React", "Tailwind CSS", "Shadcn UI", "TanStack"],
+      github: "https://github.com/Bodan07/Facelify",
+      demo: "https://facelify.vercel.app",
+    },
+    {
+      title: "TemuSync",
+      description:
+        "Smart booking and live queue management platform for smoother appointments, customer flow, and workspace operations.",
+      image: "/kamil-portfolio/images/temusync-dash.png",
+      technologies: ["React", "Tailwind CSS", "Shadcn UI", "TanStack"],
+      github: "https://github.com/Bodan07/temusync",
+      demo: "https://temusync.web.id",
+    },
+    {
       title: "RasaGram",
       description:
         "Developed an android application utilizes Machine Learning and Computer Vision to recognize traditional Indonesian dishes.",
@@ -152,7 +170,7 @@ export default function Portfolio() {
                     {item}
                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-400 group-hover:w-full transition-all duration-300" />
                   </Link>
-                )
+                ),
               )}
             </div>
           </div>
