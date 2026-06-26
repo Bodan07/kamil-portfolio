@@ -99,7 +99,7 @@ export default function Portfolio() {
       image: "/kamil-portfolio/images/Facelify-dash.png",
       technologies: ["React", "Tailwind CSS", "Shadcn UI", "TanStack"],
       github: "https://github.com/Bodan07/Facelify",
-      demo: "https://facelify.vercel.app",
+      demo: "https://facelify.web.id",
     },
     {
       title: "TemuSync",
