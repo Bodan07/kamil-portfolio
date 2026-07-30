@@ -1,4 +1,5 @@
-const BASE_PATH = "";
+const assetPath = (path: string) =>
+  process.env.NODE_ENV === "production" ? `/kamil-portfolio${path}` : path;
 
 export const profile = {
   name: "Muhammad Najmi Kamil",
@@ -39,7 +40,7 @@ export const projects = [
     code: "PRJ-01",
     name: "Facelify",
     type: "Attendance platform",
-    image: `${BASE_PATH}/images/Facelify-dash.png`,
+    image: assetPath(`/images/Facelify-dash.png`),
     stack: "React / Tailwind / TanStack",
     detail: "Selfie attendance, leave tracker, HR dashboard.",
     href: "https://facelify.web.id",
@@ -49,7 +50,7 @@ export const projects = [
     code: "PRJ-02",
     name: "TemuSync",
     type: "Booking platform",
-    image: `${BASE_PATH}/images/temusync-dash.png`,
+    image: assetPath(`/images/temusync-dash.png`),
     stack: "React / Shadcn UI / TanStack",
     detail: "Room booking, queue visibility, scheduling flow.",
     href: "https://temusync.web.id",
@@ -59,7 +60,7 @@ export const projects = [
     code: "PRJ-03",
     name: "Zebra Cross AI",
     type: "Computer vision",
-    image: `${BASE_PATH}/images/TA.jpg`,
+    image: assetPath(`/images/TA.jpg`),
     stack: "YOLOv9 / Python / Ultralytics",
     detail: "Traffic violation detection for zebra-cross cases.",
     href: "https://github.com/Bodan07/Final-TA",
@@ -69,7 +70,7 @@ export const projects = [
     code: "PRJ-04",
     name: "RasaGram",
     type: "Android app",
-    image: `${BASE_PATH}/images/RasaGram.jpg`,
+    image: assetPath(`/images/RasaGram.jpg`),
     stack: "Kotlin / TensorFlow / Firebase",
     detail: "Traditional Indonesian food recognition from camera input.",
     href: "https://github.com/RasaGram",
@@ -79,7 +80,7 @@ export const projects = [
     code: "PRJ-05",
     name: "COOKOS",
     type: "Mobile app",
-    image: `${BASE_PATH}/images/COOKOS.jpg`,
+    image: assetPath(`/images/COOKOS.jpg`),
     stack: "Flutter / Figma / Firebase",
     detail: "Recipe discovery and meal planning interface.",
     href: "https://github.com/Bodan07/COOKOS_NEW",
