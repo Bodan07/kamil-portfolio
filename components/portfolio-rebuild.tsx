@@ -10,105 +10,46 @@ import {
   Mail,
   MapPin,
 } from "lucide-react";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent as ReactKeyboardEvent,
+  type ReactNode,
+} from "react";
 import PortfolioHeroShader from "@/components/ui/portfolio-hero-with-paper-shaders";
+import {
+  experiences,
+  profile,
+  projects,
+  skills,
+  slides,
+} from "@/data/portfolio-content";
 
-const BASE_PATH =
-  process.env.NODE_ENV === "production" ? "/kamil-portfolio" : "";
+type TerminalEntry = {
+  command: string;
+  output: string;
+};
 
-const experiences = [
+const prompt = "kamil@portfolio:~$";
+
+const welcomeAscii = String.raw`██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗
+██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝
+██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗
+██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝
+╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗
+ ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝`;
+
+const initialHistory: TerminalEntry[] = [
   {
-    code: "EXP-01",
-    role: "Frontend Engineer",
-    place: "PT Tricada Intronik",
-    time: "2025 - now",
-    detail: "React, TypeScript, Refine, Ant Design, production UI.",
-  },
-  {
-    code: "EXP-02",
-    role: "Frontend Developer Intern",
-    place: "Telkom Indonesia",
-    time: "2024",
-    detail: "Meeting-room booking, API integration, PostgreSQL-backed flow.",
-  },
-  {
-    code: "EXP-03",
-    role: "Mobile Development Cohort",
-    place: "Bangkit Academy",
-    time: "2024",
-    detail: "Kotlin, TensorFlow Lite, mobile computer vision.",
+    command: "welcome",
+    output: `${welcomeAscii}
+
+[SYSTEM STARTING UP] - Portfolio v2.0
+
+Welcome to Kamil Portfolio! Type help to see available commands.`,
   },
 ];
-
-const projects = [
-  {
-    code: "PRJ-01",
-    name: "Facelify",
-    type: "Attendance platform",
-    image: `${BASE_PATH}/images/Facelify-dash.png`,
-    stack: "React / Tailwind / TanStack",
-    detail: "Selfie attendance, leave tracker, HR dashboard.",
-    href: "https://facelify.web.id",
-    repo: "https://github.com/Bodan07/Facelify",
-  },
-  {
-    code: "PRJ-02",
-    name: "TemuSync",
-    type: "Booking platform",
-    image: `${BASE_PATH}/images/temusync-dash.png`,
-    stack: "React / Shadcn UI / TanStack",
-    detail: "Room booking, queue visibility, scheduling flow.",
-    href: "https://temusync.web.id",
-    repo: "https://github.com/Bodan07/temusync",
-  },
-  {
-    code: "PRJ-03",
-    name: "Zebra Cross AI",
-    type: "Computer vision",
-    image: `${BASE_PATH}/images/TA.jpg`,
-    stack: "YOLOv9 / Python / Ultralytics",
-    detail: "Traffic violation detection for zebra-cross cases.",
-    href: "https://github.com/Bodan07/Final-TA",
-    repo: "https://github.com/Bodan07/Final-TA",
-  },
-  {
-    code: "PRJ-04",
-    name: "RasaGram",
-    type: "Android app",
-    image: `${BASE_PATH}/images/RasaGram.jpg`,
-    stack: "Kotlin / TensorFlow / Firebase",
-    detail: "Traditional Indonesian food recognition from camera input.",
-    href: "https://github.com/RasaGram",
-    repo: "https://github.com/RasaGram",
-  },
-  {
-    code: "PRJ-05",
-    name: "COOKOS",
-    type: "Mobile app",
-    image: `${BASE_PATH}/images/COOKOS.jpg`,
-    stack: "Flutter / Figma / Firebase",
-    detail: "Recipe discovery and meal planning interface.",
-    href: "https://github.com/Bodan07/COOKOS_NEW",
-    repo: "https://github.com/Bodan07/COOKOS_NEW",
-  },
-];
-
-const skills = [
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Tailwind",
-  "Refine",
-  "Ant Design",
-  "Flutter",
-  "Kotlin",
-  "Python",
-  "YOLO",
-  "TensorFlow",
-  "Figma",
-];
-
-const slides = ["Index", "Experience", "Projects", "Stack", "Contact"];
 
 function CompactRow({
   left,
@@ -131,21 +72,138 @@ function CompactRow({
   );
 }
 
+function getTerminalOutput(command: string) {
+  switch (command) {
+    case "help":
+      return `commands
+about       profile short
+projects    selected work
+skills      stack list
+experience  work history
+contact     email and links
+clear       reset terminal`;
+    case "about":
+    case "whoami":
+      return `${profile.name}
+${profile.role}
+${profile.location}
+
+I design and develop digital solutions that blend creativity
+with technology. With one year of experience in modern web
+development, I specialize in building sleek, high-performance
+interfaces—while exploring the future of tech through my passion
+for Computer Vision and AI. From concept to code, I turn ideas
+into intuitive, impactful digital realities
+                
+focus
+${profile.focus.map((item) => `- ${item}`).join("\n")}`;
+    case "projects":
+    case "ls selected-work":
+      return projects
+        .map(
+          (project) =>
+            `${project.name.padEnd(16)} ${project.type}\n  ${project.stack}\n  ${project.href}`,
+        )
+        .join("\n");
+    case "skills":
+      return skills.join("  ");
+    case "experience":
+      return experiences
+        .map(
+          (item) =>
+            `${item.time.padEnd(12)} ${item.place}\n  ${item.role}\n  ${item.detail}`,
+        )
+        .join("\n");
+    case "contact":
+    case "status":
+      return `${profile.status}
+email: ${profile.email}
+github: https://github.com/Bodan07
+linkedin: https://www.linkedin.com/in/muhammadnajmikamil/`;
+    case "":
+      return "";
+    default:
+      return `command not found: ${command}
+type "help" for commands`;
+  }
+}
+
 export default function PortfolioRebuild() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
-
-  const activeProject = useMemo(
-    () => projects[Math.min(activeSlide, projects.length - 1)],
-    [activeSlide],
-  );
+  const [terminalHistory, setTerminalHistory] =
+    useState<TerminalEntry[]>(initialHistory);
+  const [currentCommand, setCurrentCommand] = useState("");
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const terminalRef = useRef<HTMLDivElement>(null);
+  const terminalBottomRef = useRef<HTMLDivElement>(null);
+  const terminalInputRef = useRef<HTMLInputElement>(null);
 
   const goToSlide = (nextSlide: number) => {
     setActiveSlide((nextSlide + slides.length) % slides.length);
   };
 
+  const runTerminalCommand = () => {
+    const command = currentCommand.trim().toLowerCase();
+
+    if (command === "clear") {
+      setTerminalHistory([]);
+    } else {
+      setTerminalHistory((history) => [
+        ...history,
+        { command: currentCommand.trim(), output: getTerminalOutput(command) },
+      ]);
+    }
+
+    setCurrentCommand("");
+    setHistoryIndex(-1);
+  };
+
+  const handleTerminalKeyDown = (
+    event: ReactKeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (event.key === "Enter") {
+      runTerminalCommand();
+      return;
+    }
+
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setHistoryIndex((index) => {
+        const commandHistory = terminalHistory.filter((entry) => entry.command);
+        const nextIndex = Math.min(index + 1, commandHistory.length - 1);
+        setCurrentCommand(
+          commandHistory[commandHistory.length - 1 - nextIndex]?.command || "",
+        );
+        return nextIndex;
+      });
+    }
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setHistoryIndex((index) => {
+        const commandHistory = terminalHistory.filter((entry) => entry.command);
+        const nextIndex = Math.max(index - 1, -1);
+        setCurrentCommand(
+          nextIndex === -1
+            ? ""
+            : commandHistory[commandHistory.length - 1 - nextIndex]?.command ||
+                "",
+        );
+        return nextIndex;
+      });
+    }
+  };
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      const isTyping =
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target?.isContentEditable;
+
+      if (isTyping) return;
       if (event.key === "ArrowRight") goToSlide(activeSlide + 1);
       if (event.key === "ArrowLeft") goToSlide(activeSlide - 1);
     };
@@ -153,6 +211,53 @@ export default function PortfolioRebuild() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [activeSlide]);
+
+  useEffect(() => {
+    terminalBottomRef.current?.scrollIntoView({ block: "nearest" });
+  }, [terminalHistory]);
+
+  const renderTerminalOutput = (output: string) => {
+    const linkPattern =
+      /(https?:\/\/[^\s]+|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g;
+
+    return output.split(linkPattern).map((part, index) => {
+      if (part.startsWith("http")) {
+        return (
+          <a
+            key={`${part}-${index}`}
+            href={part}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {part}
+          </a>
+        );
+      }
+
+      if (part.includes("@") && part.includes(".")) {
+        return (
+          <a key={`${part}-${index}`} href={`mailto:${part}`}>
+            {part}
+          </a>
+        );
+      }
+
+      return <span key={`${part}-${index}`}>{part}</span>;
+    });
+  };
+
+  const renderWelcomeOutput = (output: string) => {
+    const lines = output.split("\n");
+    const ascii = lines.slice(0, 6).join("\n");
+    const rest = lines.slice(6).join("\n").trim();
+
+    return (
+      <>
+        <strong>{ascii}</strong>
+        {rest && <span>{rest}</span>}
+      </>
+    );
+  };
 
   return (
     <main
@@ -191,37 +296,61 @@ export default function PortfolioRebuild() {
           aria-live="polite"
         >
           <article className="rebuild-slide rebuild-slide--hero">
-            <div className="rebuild-panel rebuild-panel--copy">
-              <p className="rebuild-meta">Frontend Engineer / Bandung</p>
-              <h1>
-                NAJMI KAMIL
-                <br />
-                FRONTEND ENGINEER
-              </h1>
+            <div className="rebuild-panel rebuild-panel--copy rebuild-terminal">
+              <div className="rebuild-terminal-header">
+                <div aria-hidden="true">
+                  <span />
+                  <span />
+                  <span />
+                </div>
+                <p>kamil@portfolio:~</p>
+                <small>ONLINE</small>
+              </div>
+
               <div
-                className="rebuild-terminal-list"
-                aria-label="Profile summary"
+                ref={terminalRef}
+                className="rebuild-terminal-screen"
+                onClick={() => terminalInputRef.current?.focus()}
               >
-                <p>
-                  <span>Stack</span>
-                  <span>React</span>
-                  <span>TypeScript</span>
-                </p>
-                <p>
-                  <span>Focus</span>
-                  <span>Interface</span>
-                  <span>AI Vision</span>
-                </p>
-                <p>
-                  <span>Base</span>
-                  <span>Bandung</span>
-                  <span>Remote</span>
-                </p>
-                <p>
-                  <span>MISC</span>
-                  <span>Ship fast</span>
-                  <span>Stay sharp</span>
-                </p>
+                {terminalHistory.map((entry, index) => (
+                  <div
+                    className="rebuild-terminal-entry"
+                    key={`${entry.command}-${index}`}
+                  >
+                    <p className="rebuild-terminal-command">
+                      <span className="rebuild-terminal-prompt">{prompt}</span>{" "}
+                      {entry.command}
+                    </p>
+                    {entry.output && (
+                      <pre
+                        className={`rebuild-terminal-output ${
+                          entry.command === "welcome"
+                            ? "rebuild-terminal-output--welcome"
+                            : ""
+                        }`}
+                      >
+                        {entry.command === "welcome"
+                          ? renderWelcomeOutput(entry.output)
+                          : renderTerminalOutput(entry.output)}
+                      </pre>
+                    )}
+                  </div>
+                ))}
+
+                <div className="rebuild-terminal-input-row">
+                  <span className="rebuild-terminal-prompt">{prompt}</span>
+                  <input
+                    ref={terminalInputRef}
+                    type="text"
+                    value={currentCommand}
+                    onChange={(event) => setCurrentCommand(event.target.value)}
+                    onKeyDown={handleTerminalKeyDown}
+                    aria-label="Terminal command"
+                    spellCheck={false}
+                    autoComplete="off"
+                  />
+                </div>
+                <div ref={terminalBottomRef} />
               </div>
             </div>
 
