@@ -90,7 +90,7 @@ export default function Portfolio() {
       title: "Zebra Cross Violation Detection with YOLOv9",
       description:
         "Developed an AI-based traffic violation detection system using YOLOv9 to identify zebra cross violations in Indonesia.",
-      image: "/images/TA.jpg",
+      image: assetPath("/images/TA.jpg"),
       technologies: ["YOLO", "TensorFlow", "Ultralytics"],
       github: "https://github.com/Bodan07/Final-TA",
       demo: "#projects",
@@ -99,7 +99,7 @@ export default function Portfolio() {
       title: "Facelify",
       description:
         "Modern attendance management with Quick Entry, selfie verification, HR dashboards, leave tracking, and AI-ready attendance innovation.",
-      image: "/images/Facelify-dash.png",
+      image: assetPath("/images/Facelify-dash.png"),
       technologies: ["React", "Tailwind CSS", "Shadcn UI", "TanStack"],
       github: "https://github.com/Bodan07/Facelify",
       demo: "https://facelify.web.id",
@@ -108,7 +108,7 @@ export default function Portfolio() {
       title: "TemuSync",
       description:
         "Smart booking and live queue management platform for smoother appointments, customer flow, and workspace operations.",
-      image: "/images/temusync-dash.png",
+      image: assetPath("/images/temusync-dash.png"),
       technologies: ["React", "Tailwind CSS", "Shadcn UI", "TanStack"],
       github: "https://github.com/Bodan07/temusync",
       demo: "https://temusync.web.id",
@@ -117,7 +117,7 @@ export default function Portfolio() {
       title: "RasaGram",
       description:
         "Developed an android application utilizes Machine Learning and Computer Vision to recognize traditional Indonesian dishes.",
-      image: "/images/RasaGram.jpg",
+      image: assetPath("/images/RasaGram.jpg"),
       technologies: ["Kotlin", "Figma", "Jetpack Compose", "Firebase"],
       github: "https://github.com/RasaGram",
       demo: "#projects",
@@ -126,7 +126,7 @@ export default function Portfolio() {
       title: "COOKOS",
       description:
         "COOKOS is a recipe app designed to help users find and cook delicious meals that suit their budget. It makes meal planning simple, affordable, and accessible for everyone.",
-      image: "/images/COOKOS.jpg",
+      image: assetPath("/images/COOKOS.jpg"),
       technologies: ["Flutter", "Figma", "Firebase"],
       github: "https://github.com/Bodan07/COOKOS_NEW",
       demo: "#projects",
@@ -188,7 +188,7 @@ export default function Portfolio() {
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full blur-xl opacity-50 animate-pulse" />
               <div className="relative">
                 <Image
-                  src="/images/kamil-profile.png"
+                  src={assetPath("/images/kamil-profile.png")}
                   alt="Kamil profile"
                   width={250}
                   height={250}
@@ -230,9 +230,7 @@ export default function Portfolio() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
                 <a
-                  href={assetPath(
-                    "/files/CV_Muhammad%20Najmi%20Kamil.pdf",
-                  )}
+                  href={assetPath("/files/CV_Muhammad%20Najmi%20Kamil.pdf")}
                   download
                 >
                   <Button
