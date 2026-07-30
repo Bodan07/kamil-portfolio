@@ -1,10 +1,11 @@
 /** @type {import('next').NextConfig} */
 const repoName = "kamil-portfolio";
+const isProduction = process.env.NODE_ENV === "production";
 
 const nextConfig = {
   output: "export",
-  basePath: `/${repoName}`,
-  assetPrefix: `/${repoName}/`,
+  basePath: isProduction ? `/${repoName}` : undefined,
+  assetPrefix: isProduction ? `/${repoName}/` : undefined,
   trailingSlash: true,
   eslint: {
     ignoreDuringBuilds: true,
