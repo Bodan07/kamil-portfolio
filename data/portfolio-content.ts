@@ -1,5 +1,4 @@
-const BASE_PATH =
-  process.env.NODE_ENV === "production" ? "/kamil-portfolio" : "";
+const BASE_PATH = "";
 
 export const profile = {
   name: "Muhammad Najmi Kamil",

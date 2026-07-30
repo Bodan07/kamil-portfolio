@@ -26,9 +26,16 @@ import {
   slides,
 } from "@/data/portfolio-content";
 
+const assetPath = (path: string) =>
+  process.env.NODE_ENV === "production" ? `/kamil-portfolio${path}` : path;
+
 type TerminalEntry = {
   command: string;
   output: string;
+};
+
+type PortfolioRebuildProps = {
+  onSwitchOriginal: () => void;
 };
 
 const prompt = "kamil@portfolio:~$";
@@ -81,6 +88,7 @@ projects    selected work
 skills      stack list
 experience  work history
 contact     email and links
+original    switch to original mode
 clear       reset terminal`;
     case "about":
     case "whoami":
@@ -128,13 +136,16 @@ type "help" for commands`;
   }
 }
 
-export default function PortfolioRebuild() {
+export default function PortfolioRebuild({
+  onSwitchOriginal,
+}: PortfolioRebuildProps) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [terminalHistory, setTerminalHistory] =
     useState<TerminalEntry[]>(initialHistory);
   const [currentCommand, setCurrentCommand] = useState("");
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const [pendingOriginalConfirm, setPendingOriginalConfirm] = useState(false);
   const terminalRef = useRef<HTMLDivElement>(null);
   const terminalBottomRef = useRef<HTMLDivElement>(null);
   const terminalInputRef = useRef<HTMLInputElement>(null);
@@ -145,13 +156,59 @@ export default function PortfolioRebuild() {
 
   const runTerminalCommand = () => {
     const command = currentCommand.trim().toLowerCase();
+    const typedCommand = currentCommand.trim();
+
+    if (pendingOriginalConfirm) {
+      if (command === "y" || command === "yes") {
+        setTerminalHistory((history) => [
+          ...history,
+          {
+            command: typedCommand,
+            output: "confirmed. switching to original mode...",
+          },
+        ]);
+        setPendingOriginalConfirm(false);
+        setCurrentCommand("");
+        setHistoryIndex(-1);
+        window.setTimeout(onSwitchOriginal, 250);
+        return;
+      }
+
+      if (command === "n" || command === "no") {
+        setTerminalHistory((history) => [
+          ...history,
+          { command: typedCommand, output: "cancelled. stay in rebuild mode." },
+        ]);
+        setPendingOriginalConfirm(false);
+        setCurrentCommand("");
+        setHistoryIndex(-1);
+        return;
+      }
+
+      setTerminalHistory((history) => [
+        ...history,
+        { command: typedCommand, output: "please answer y or n." },
+      ]);
+      setCurrentCommand("");
+      setHistoryIndex(-1);
+      return;
+    }
 
     if (command === "clear") {
       setTerminalHistory([]);
+    } else if (command === "original") {
+      setTerminalHistory((history) => [
+        ...history,
+        {
+          command: typedCommand,
+          output: "switch to original portfolio mode? (y/n)",
+        },
+      ]);
+      setPendingOriginalConfirm(true);
     } else {
       setTerminalHistory((history) => [
         ...history,
-        { command: currentCommand.trim(), output: getTerminalOutput(command) },
+        { command: typedCommand, output: getTerminalOutput(command) },
       ]);
     }
 
@@ -272,9 +329,14 @@ export default function PortfolioRebuild() {
     >
       <div className="rebuild-shell">
         <header className="rebuild-topbar">
-          <Link href="#deck" className="rebuild-mark" aria-label="Kamil home">
+          <a
+            href={assetPath("/files/CV_Muhammad%20Najmi%20Kamil.pdf")}
+            download
+            className="rebuild-mark"
+            aria-label="Kamil home"
+          >
             m najmi kamil.cv
-          </Link>
+          </a>
           <nav aria-label="Portfolio slides">
             {slides.map((slide, index) => (
               <button
